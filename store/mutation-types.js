@@ -1,0 +1,6 @@
+export const SET_MANGA_INDEX = 'SET_MANGA_INDEX'
+export const INC_PAGE_INDEX = 'INC_PAGE_INDEX'
+export const DEC_PAGE_INDEX = 'DEC_PAGE_INDEX'
+export const INC_CHAP_INDEX = 'INC_CHAP_INDEX'
+export const DEC_CHAP_INDEX = 'DEC_CHAP_INDEX'
+export const SET_CHAP_LEN = 'SET_CHAP_LEN'
