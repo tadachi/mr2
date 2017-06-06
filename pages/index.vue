@@ -2,21 +2,21 @@
   <div class="big">
     <!--<button @click="$store.commit('increment')">{{ $store.state.counter }}</button>-->
     <div class="row">
-      <div class="col c1">
-        <a class="btn btn-a btn-sm smooth" v-on:click="prevPage()">Prev</a>
+      <div class="col c2">
+        <div>{{$store.state.manga_index[$store.state.v.ch_i].ch}} - {{$store.state.v.p_i+1}} / {{$store.state.v.ch_len}}</div>
+        <div v-for="(item, index, key) in $store.state.manga_index" v-on:click="setChapter(index)">
+          {{item.vol}} - {{item.ch}}
+        </div>
       </div>
-      <div class="col c10">
+      <div class="col c9">
       
-      <!--
-      <select v-model="values">
-        <option disabled>- Chapters -</option>
-        <option v-for="(item, index, key) in $store.state.manga_index"
-          :value="{chapter_length: item.pages.length, chapter_index: index, page_index: 0}">{{item.ch}}</option>
-      </select>
-      -->
+
+      
 
       <!--{{$store.state.manga_index[values.chapter_index].pages[values.page_index].page}}-->
-      <img :src="$store.state.manga_index[$store.state.v.ch_i].pages[$store.state.v.p_i].page">
+      <div>
+        <img :src="$store.state.manga_index[$store.state.v.ch_i].pages[$store.state.v.p_i].page">
+      </div>
       
       <!--
       <div v-for="(item, index, key) in $store.state.manga_index[values.chapter_index].pages">
@@ -26,6 +26,7 @@
       -->
       </div>
       <div class="col c1">
+        <a class="btn btn-a btn-sm smooth" v-on:click="prevPage()">Prev</a>
         <a class="btn btn-a btn-sm smooth" v-on:click="nextPage()">Next</a>
       </div>
     </div>
@@ -47,7 +48,7 @@
 
 <script>
 import axios from 'axios'
-import {SET_MANGA_INDEX, INC_PAGE_INDEX, DEC_PAGE_INDEX, INC_CHAP_INDEX, DEC_CHAP_INDEX, SET_CHAP_LEN} from '../store/mutation-types'
+import {SET_MANGA_INDEX, INC_PAGE_INDEX, DEC_PAGE_INDEX, INC_CHAP_INDEX, DEC_CHAP_INDEX, SET_CHAP_LEN, SET_CHAP} from '../store/mutation-types'
 
 const hostname = process.env.baseUrl
 
@@ -68,6 +69,7 @@ export default {
   },
   methods: {
     setChapter (i) {
+      this.$store.commit(SET_CHAP, i)
     },
     setChapterLength (length) {
       this.$store.commit(SET_CHAP_LEN, length)
