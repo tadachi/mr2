@@ -1,48 +1,26 @@
 <template>
   <div class="big">
-    <!--<button @click="$store.commit('increment')">{{ $store.state.counter }}</button>-->
-    <div class="row">
-      <div class="col c2">
-        <div>{{$store.state.manga_index[$store.state.v.ch_i].ch}} - {{$store.state.v.p_i+1}} / {{$store.state.v.ch_len}}</div>
-        <div v-for="(item, index, key) in $store.state.manga_index" v-on:click="setChapter(index)">
-          {{item.vol}} - {{item.ch}}
-        </div>
-      </div>
-      <div class="col c9">
-      
-
-      
-
-      <!--{{$store.state.manga_index[values.chapter_index].pages[values.page_index].page}}-->
+    <div>
       <div>
+        <div>{{$store.state.manga_index[$store.state.v.ch_i].ch}} - {{$store.state.v.p_i+1}} / {{$store.state.v.ch_len}}</div>
+        <div>
+          <select v-model="ch_i" v-on:change="setChapter(ch_i)">
+            <option v-for="(item, index, key) in $store.state.manga_index" :value="index">{{item.vol}} - {{item.ch}}</option>
+          </select>
+        </div>
+        <a class="btn btn-a btn-sm smooth" v-on:click="prevPage()">Prev</a>
+        <a class="btn btn-a btn-sm smooth" v-on:click="nextPage()">Next</a>
+      </div>
+      <div class="bounding-box">
         <img :src="$store.state.manga_index[$store.state.v.ch_i].pages[$store.state.v.p_i].page">
       </div>
-      
-      <!--
-      <div v-for="(item, index, key) in $store.state.manga_index[values.chapter_index].pages">
-        {{item}} {{index}} {{key}}
-        <img :src="item.page">
-      </div>
-      -->
-      </div>
-      <div class="col c1">
+      <div>
+        <div>{{$store.state.manga_index[$store.state.v.ch_i].ch}} - {{$store.state.v.p_i+1}} / {{$store.state.v.ch_len}}</div>
         <a class="btn btn-a btn-sm smooth" v-on:click="prevPage()">Prev</a>
         <a class="btn btn-a btn-sm smooth" v-on:click="nextPage()">Next</a>
       </div>
     </div>
     
-
-    <!--
-    <div v-for="(volume, index, key) in $store.state.manga_index">
-      {{index}} {{key}}
-      <div v-bind="volume" v-for="(chapter, index, key) in volume">
-        {{index}}
-        <div v-bind="chapter" v-for="(page, index, key) in chapter">
-            <img :src="page">
-        </div>
-      </div>
-    </div>
-    -->
   </div>
 </template>
 
@@ -64,7 +42,7 @@ export default {
   props: {},
   data: () => {
     return {
-
+      ch_i: 0
     }
   },
   methods: {
@@ -74,18 +52,11 @@ export default {
     setChapterLength (length) {
       this.$store.commit(SET_CHAP_LEN, length)
     },
-    nextChapter () {
-    },
-    prevChapter () {
-    },
     nextPage () {
       this.$store.commit(INC_PAGE_INDEX)
     },
     prevPage () {
       this.$store.commit(DEC_PAGE_INDEX)
-    },
-    test () {
-      console.log(this.$store)
     }
   },
   created: () => {},
@@ -95,7 +66,21 @@ export default {
 </script>
 
 <style lang="sass" scoped> //Scoped means it only applies to current component only.
-  .big {
-    font-size: 30px;
+  html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+  }
+  .bounding-box {
+    background-image: url(...);
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+  img {
+    padding: 0;
+    display: block;
+    margin: 0 auto;
+    max-height: 100vh;
+    max-width: 100%;
   }
 </style>

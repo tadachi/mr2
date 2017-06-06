@@ -32,7 +32,7 @@ export const mutations = {
   SET_CHAP (state, i) {
     state.v.ch_i = i
     state.v.ch_len = state.manga_index[i].pages.length
-    state.v.p_i = 0;
+    state.v.p_i = 0
   },
   SET_CHAP_LEN (state, length) {
     state.v.ch_len = length
