@@ -9,6 +9,12 @@
     "bulma": "^0.4.2",
     "nuxt": "latest"
   },
+  "config": {
+    "nuxt": {
+      "host": "0.0.0.0",
+      "port": "3000"
+    }
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
