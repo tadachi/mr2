@@ -17,7 +17,7 @@ export const mutations = {
       if (state.v.ch_i <= 0) { return }
       state.v.ch_i -= 1
       state.v.ch_len = state.manga_index[state.v.ch_i].pages.length
-      state.v.p_i = state.v.ch_len - 1
+      state.v.p_i = state.v.ch_len
     }
     state.v.p_i -= 1
   },

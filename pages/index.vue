@@ -1,26 +1,48 @@
 <template>
-  <div class="big">
-    <div>
-      <div>
-        <div>{{$store.state.manga_index[$store.state.v.ch_i].ch}} - {{$store.state.v.p_i+1}} / {{$store.state.v.ch_len}}</div>
-        <div>
-          <select v-model="ch_i" v-on:change="setChapter(ch_i)">
-            <option v-for="(item, index, key) in $store.state.manga_index" :value="index">{{item.vol}} - {{item.ch}}</option>
-          </select>
+  <div>
+    <div style="height: 9vh; margin-top: 10px;">
+      <div style="height: 100%;" class="columns is-mobile is-gapless">
+        <div class="column is-2 has-text-centered" >
+          <a class="button is-primary" v-on:click="prevPage()">Prev</a>
         </div>
-        <a class="btn btn-a btn-sm smooth" v-on:click="prevPage()">Prev</a>
-        <a class="btn btn-a btn-sm smooth" v-on:click="nextPage()">Next</a>
-      </div>
-      <div class="bounding-box">
-        <img :src="$store.state.manga_index[$store.state.v.ch_i].pages[$store.state.v.p_i].page">
-      </div>
-      <div>
-        <div>{{$store.state.manga_index[$store.state.v.ch_i].ch}} - {{$store.state.v.p_i+1}} / {{$store.state.v.ch_len}}</div>
-        <a class="btn btn-a btn-sm smooth" v-on:click="prevPage()">Prev</a>
-        <a class="btn btn-a btn-sm smooth" v-on:click="nextPage()">Next</a>
+        <div class="column is-8 has-text-centered">
+          <span class="select">
+            <select v-model="ch_i" v-on:change="setChapter(ch_i)">
+              <option v-for="(item, index, key) in $store.state.manga_index" :value="index">{{item.vol}} - {{item.ch}}</option>
+            </select>
+          </span>
+        </div>
+        <div class="column is-2 has-text-left" >
+          <a class="button is-primary" v-on:click="nextPage()">Next</a>
+        </div>
       </div>
     </div>
-    
+
+    <div style="background-color: white; height: 82vh;">
+      <img class="center" :src="$store.state.manga_index[$store.state.v.ch_i].pages[$store.state.v.p_i].page">
+    </div>
+
+    <div style="height: 9vh;">
+      <div style="height: 100%;" class="columns is-mobile is-gapless">
+        <div class="column is-2 has-text-centered">
+          <a class="button is-primary" v-on:click="prevPage()">Prev</a>
+        </div>
+        <div style="font-size: 13px" class="column is-8 has-text-centered">
+          <p>{{$store.state.v.p_i+1}} / {{$store.state.v.ch_len}}</p>
+          <p>{{$store.state.manga_index[ch_i].ch}}</p>
+        </div>
+        <div class="column is-2 has-text-left">
+          <a class="button is-primary" v-on:click="nextPage()">Next</a>
+        </div>
+      </div>
+    </div>
+    <!--
+    <div style="width: 100vw; height: 20vh; background-color: brown;">
+      <a class="button is-primary" v-on:click="prevPage()">Prev</a>
+      <label class="label">{{$store.state.v.p_i+1}} / {{$store.state.v.ch_len}}</label>
+      <a class="button is-primary" v-on:click="nextPage()">Next</a>
+    </div>
+    -->
   </div>
 </template>
 
@@ -42,21 +64,25 @@ export default {
   props: {},
   data: () => {
     return {
-      ch_i: 0
+      ch_i: 0,
+      p_i: 0
     }
   },
   methods: {
     setChapter (i) {
       this.$store.commit(SET_CHAP, i)
+      this.ch_i = this.$store.state.v.ch_i
     },
     setChapterLength (length) {
       this.$store.commit(SET_CHAP_LEN, length)
     },
     nextPage () {
       this.$store.commit(INC_PAGE_INDEX)
+      this.ch_i = this.$store.state.v.ch_i
     },
     prevPage () {
       this.$store.commit(DEC_PAGE_INDEX)
+      this.ch_i = this.$store.state.v.ch_i
     }
   },
   created: () => {},
@@ -65,22 +91,14 @@ export default {
 
 </script>
 
-<style lang="sass" scoped> //Scoped means it only applies to current component only.
-  html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
+<style>
+  img.center {
+    display: block; 
+    margin: auto;
+    height: 80vh;
   }
-  .bounding-box {
-    background-image: url(...);
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-  img {
-    padding: 0;
+  center {
     display: block;
-    margin: 0 auto;
-    max-height: 100vh;
-    max-width: 100%;
+    margin: auto;
   }
 </style>

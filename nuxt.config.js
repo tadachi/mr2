@@ -6,7 +6,8 @@ module.exports = {
     // node.js module but we specify the pre-processor
     // { src: 'bulma', lang: 'sass' },
     // { src: 'min', lang: 'sass'}
-    '~assets/entireframework.min.css'
+    '~assets/bulma.css',
+    // '~assets/entireframework.min.css'
   ],
   /*
   ** Headers of the page
