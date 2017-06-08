@@ -61,6 +61,14 @@ export default {
       // store.commit(SET_CHAP_LEN, )
     })
   },
+  head () {
+    return {
+      title: this.title,
+      meta: [
+        { hid: 'mr2', name: 'mr2', content: 'Manga-Reader2' }
+      ]
+    }
+  },
   props: {},
   data: () => {
     return {
