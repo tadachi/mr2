@@ -2,6 +2,9 @@ export const mutations = {
   SET_MANGA_INDEX (state, data) {
     state.manga_index = data
   },
+  SET_ROOT_INDEX (state, data) {
+    state.index = data
+  },
   INC_PAGE_INDEX (state) {
     if (state.v.p_i >= state.v.ch_len - 1) {
       if (state.v.ch_i >= state.manga_index.length - 1) { return }
