@@ -39,5 +39,17 @@ export const mutations = {
   },
   SET_CHAP_LEN (state, length) {
     state.v.ch_len = length
+  },
+  SET_PAGE (state, i) {
+    if (i >= state.v.ch_len) {
+      i = state.v.ch_len - 1
+    }
+    state.v.p_i = i
+  },
+  SET_MANGA_NAME (state, name) {
+    state.v.name = name
+  },
+  SET_MANGA_TITLE (state, title) {
+    state.v.title = title
   }
 }

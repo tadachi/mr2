@@ -10,5 +10,9 @@ npm-debug.log
 # Nuxt generate
 dist
 
+# Your own ignores
+static
 static/Gantz
 static/HSDK
+pages/users
+pages/users.vue

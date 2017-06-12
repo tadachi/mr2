@@ -4,10 +4,8 @@
       <pre>
         {{manga.name}} volumes: {{manga.vol_l}} chapters: {{manga.ch_l}} index: {{manga.index}}
       </pre>
-      <!--<nuxt-link :to="'/manga/'+manga.name+'/'">{{manga.title}}</nuxt-link>-->
+      <p><nuxt-link :to="'/'+manga.name+'/'+'01'+'/'+'001'+'/'+'1'">{{manga.title}}</nuxt-link></p>
     </div>
-    <div><nuxt-link to="/manga">reader</nuxt-link></div>
-    <div><nuxt-link to="/users">users</nuxt-link></div>
   </div>
 </template>
 
