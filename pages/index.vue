@@ -21,6 +21,19 @@ export default {
     return axios.get(`${hostname}/index.json`).then((json) => {
       store.commit(SET_ROOT_INDEX, json.data)
     })
+  },
+  data () {
+    return {
+      title: 'mr2 index'
+    }
+  },
+  head () {
+    return {
+      title: this.title,
+      meta: [
+        { name: 'mr2 index', content: 'manga-reader 2 manga index' }
+      ]
+    }
   }
 }
 </script>

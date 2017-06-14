@@ -1,6 +1,7 @@
 module.exports = {
   env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    // baseUrl: process.env.BASE_URL || 'http://localhost:3000' || 'http://beastmachine:3000',
+    baseUrl: process.env.BASE_URL || 'http://beastmachine:3000',
   },
   css: [
     // node.js module but we specify the pre-processor
@@ -13,11 +14,11 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'starter',
+    title: '%s - mr2',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js project' }
+      { hid: 'mr2', name: 'manga-reader2', content: 'Manga Reader 2' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }

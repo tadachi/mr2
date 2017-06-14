@@ -42,20 +42,25 @@ const store = () => new Vuex.Store({
       let ch = state.v.ch_i
       p = p + 1
       if (p >= state.v.ch_len) {
-        if (state.v.ch_i >= state.manga_index.length) { return }
+        if (state.v.ch_i >= state.manga_index.length) {
+          const v = state.manga_index[ch].vol_id
+          const c = pad(ch + 1, 3, 0)
+          const path = `/${name}/${v}/${c}/${p}`
+          return { name: name, vol_id: v, ch_i: ch, ch_id: c, p: p, path: path }
+        }
         ch += 1
         // Add one to fit API versus array
         p = 1
-        const vol = state.manga_index[ch].vol_id
-        ch = pad(ch + 1, 3, 0)
-        const path = `${name}/${vol}/${ch}/${p}`
-        return path
+        const v = state.manga_index[ch].vol_id
+        const c = pad(ch + 1, 3, 0)
+        const path = `/${name}/${v}/${c}/${p}`
+        return { name: name, vol_id: v, ch_i: ch, ch_id: c, p: p, path: path }
       } else {
-        const vol = state.manga_index[ch].vol_id
-        ch = pad(ch + 1, 3, 0)
+        const v = state.manga_index[ch].vol_id
+        const c = pad(ch + 1, 3, 0)
         p = p + 1
-        const path = `${name}/${vol}/${ch}/${p}`
-        return path
+        const path = `/${name}/${v}/${c}/${p}`
+        return { name: name, vol_id: v, ch_i: ch, ch_id: c, p: p, path: path }
       }
     },
     getPrev: state => {
@@ -67,19 +72,25 @@ const store = () => new Vuex.Store({
       let ch = state.v.ch_i
       p = p - 1
       if (p < 0) {
-        if (state.v.ch_i <= 0) { return `${name}/01/001/1` }
+        if (state.v.ch_i <= 0) {
+          const v = state.manga_index[ch].vol_id
+          const c = pad(ch + 1, 3, 0)
+          const p = 1
+          const path = `/${name}/${v}/${c}/${p}`
+          return { name: name, vol_id: v, ch_i: ch, ch_id: c, p: p, path: path }
+        }
         ch -= 1
         p = state.manga_index[ch].pages.length
-        const vol = state.manga_index[ch].vol_id
-        ch = pad(ch + 1, 3, 0)
-        const path = `${name}/${vol}/${ch}/${p}`
-        return path
+        const v = state.manga_index[ch].vol_id
+        const c = pad(ch + 1, 3, 0)
+        const path = `/${name}/${v}/${c}/${p}`
+        return { name: name, vol_id: v, ch_i: ch, ch_id: c, p: p, path: path }
       } else {
-        const vol = state.manga_index[ch].vol_id
-        ch = pad(ch + 1, 3, 0)
+        const v = state.manga_index[ch].vol_id
+        const c = pad(ch + 1, 3, 0)
         p = p + 1
-        const path = `${name}/${vol}/${ch}/${p}`
-        return path
+        const path = `/${name}/${v}/${c}/${p}`
+        return { name: name, vol_id: v, ch_i: ch, ch_id: c, p: p, path: path }
       }
     }
   }

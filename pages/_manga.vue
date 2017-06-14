@@ -4,17 +4,17 @@
     <div style="height: 9vh; margin-top: 10px;">
       <div style="height: 100%;" class="columns is-mobile is-gapless">
         <div class="column is-2 has-text-centered" >
-          <p><nuxt-link :to="'/'+$store.getters.getPrev" replace>Prev</nuxt-link></p>
+          <a class="button is-primary" v-on:click="prevPage($store.getters.getPrev)">Prev</a>
         </div>
         <div class="column is-8 has-text-centered">
           <span class="select">
-            <select v-model="path" v-on:change="setChapter(path)">
-              <option v-for="(item, index, key) in chapters" :value="item.path">{{item.name}}</option>
+            <select v-model="ch_i" v-on:change="setChapter(ch_i)">
+              <option v-for="(item, index, key) in chapters" :value="index">{{item.name}}</option>
             </select>
           </span>
         </div>
         <div class="column is-2 has-text-left" >
-          <p><nuxt-link :to="'/'+$store.getters.getNext" replace>Next</nuxt-link></p>
+          <a class="button is-primary" v-on:click="nextPage($store.getters.getNext)">Next</a>
         </div>
       </div>
     </div>
@@ -24,14 +24,14 @@
     <div style="height: 9vh;">
       <div style="height: 100%;" class="columns is-mobile is-gapless">
         <div class="column is-2 has-text-centered">
-          <p><nuxt-link :to="'/'+$store.getters.getPrev" replace>Prev</nuxt-link></p>
+          <a class="button is-primary" v-on:click="prevPage($store.getters.getPrev)">Prev</a>
         </div>
         <div style="font-size: 13px" class="column is-8 has-text-centered">
           <p>{{$store.state.v.p_i+1}} / {{$store.state.v.ch_len}}</p>
-          <p>{{$store.state.manga_index[ch_i].ch}}</p>
+          <p>{{$store.state.manga_index[$store.state.v.ch_i].ch}}</p>
         </div>
         <div class="column is-2 has-text-left">
-          <p><nuxt-link :to="'/'+$store.getters.getNext" replace>Next</nuxt-link></p>
+          <a class="button is-primary" v-on:click="nextPage($store.getters.getNext)">Next</a>
         </div>
       </div>
     </div>
@@ -46,14 +46,7 @@ const hostname = process.env.baseUrl
 
 export default {
   validate ({params, store}) {
-    console.log('validate _manga.vue')
-    const name = params.manga
-    const ch = parseInt(params.ch) - 1
-    const p = parseInt(params.p) - 1
-    if (store.state.manga_index) {
-      store.commit(SET_CHAP, ch)
-      store.commit(SET_PAGE, p)
-    }
+    console.log('validate')
     return true
   },
   fetch ({params, store}) {
@@ -75,7 +68,6 @@ export default {
       store.commit(SET_MANGA_TITLE, index.data[name].title)
       // Initial API path
       const path = `/${params.manga}/${params.vol}/${params.ch}/${params.p}`
-      console.log(path)
       // Convert to indices for arrays by subtracting 1
       const ch = parseInt(params.ch) - 1
       const p = parseInt(params.p) - 1
@@ -86,27 +78,55 @@ export default {
       }
       store.commit(SET_CHAP, ch)
       store.commit(SET_PAGE, p)
-      return { data: params, ch_i: ch, p_i: p, path: path, chapters: items }
+      return { data: params, ch_i: ch, p_i: p, path: path, chapters: items, title: `${path}` }
     })
   },
   head () {
     return {
       title: this.title,
       meta: [
-        { hid: 'mr2', name: 'mr2', content: 'Manga-Reader2' }
+        // { name: 'mr2', content: `${this.data.manga}` }
+        { name: 'mr2', content: `${this.data.manga}` }
       ]
     }
   },
   props: {},
-  data: () => {},
+  data: () => {
+  },
+  beforeRouteEnter (to, from, next) { // Hooks
+    next()
+  },
+  beforeRouteUpdate (to, from, next) {
+    console.log('beforeRouteUpdate _manga.vue')
+    console.log(from)
+    console.log(to)
+    const ch = parseInt(to.params.ch) - 1
+    const p = parseInt(to.params.p) - 1
+    if (this.$store.state.manga_index) {
+      this.$store.commit(SET_CHAP, ch)
+      this.$store.commit(SET_PAGE, p)
+    }
+    this.ch_i = ch
+    this.p_i = p
+    this.path = to.params.path
+    this.title = to.params.path
+    next()
+  },
+  beforeRouteLeave (to, from, next) {
+    next()
+  },
   methods: {
-    setChapter (path) {
-      this.data.path = path
-      this.$router.push(path)
+    setChapter (index) {
+      this.$router.replace(this.chapters[index].path)
+    },
+    nextPage (next) {
+      this.$router.replace(next.path)
+    },
+    prevPage (prev) {
+      this.$router.replace(prev.path)
     }
   },
-  created: (store) => {
-  },
+  created: () => {},
   computed: {}
 }
 

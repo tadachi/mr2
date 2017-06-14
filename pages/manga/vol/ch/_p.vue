@@ -1,13 +1,15 @@
 <template>
   <div style="background-color: white; height: 82vh;">
     <!--{{$store.state.manga_index[ch_i].pages[p_i].page}}-->
-    <img v-if="$store.state.manga_index[ch_i].pages[p_i].page !== null" class="center" :src="'/'+$store.state.manga_index[ch_i].pages[p_i].page">
+    <img v-if="$store.state.manga_index[ch_i].pages[p_i]" class="center" :src="'/'+$store.state.manga_index[ch_i].pages[p_i].page">
   </div>
 </template>
 
 <script>
 export default {
   validate ({params, store}) {
+    const ch = parseInt(params.ch) - 1
+    const p = parseInt(params.p) - 1
     return true
   },
   asyncData ({params}) {
