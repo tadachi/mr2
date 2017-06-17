@@ -75,7 +75,7 @@ export default {
       for (let item of manga.data) {
         items.push({path: `/${params.manga}/${item.vol_id}/${item.ch_id}/1`, name: `${item.vol} - ${item.ch}`})
       }
-      if (ch > store.state.v.ch_i) {
+      if (ch > store.state.v.ch_i || ch < this.$store.state.v.ch_i) {
         store.commit(SET_CHAP, ch)
       }
       store.commit(SET_PAGE, p)
@@ -101,7 +101,7 @@ export default {
     const ch = parseInt(to.params.ch) - 1
     const p = parseInt(to.params.p) - 1
     if (this.$store.state.manga_index) {
-      if (ch > this.$store.state.v.ch_i) {
+      if (ch > this.$store.state.v.ch_i || ch < this.$store.state.v.ch_i) {
         this.$store.commit(SET_CHAP, ch)
       }
       this.$store.commit(SET_PAGE, p)
