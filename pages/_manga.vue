@@ -8,7 +8,7 @@
         </div>
         <div class="column is-8 has-text-centered">
           <span class="select">
-            <select v-model="ch_i" v-on:change="setChapter(ch_i)">
+            <select v-model="$store.state.v.ch_i" v-on:change="setChapter($store.state.v.ch_i)">
               <option v-for="(item, index, key) in chapters" :value="index">{{item.name}}</option>
             </select>
           </span>
@@ -73,19 +73,19 @@ export default {
       const p = parseInt(params.p) - 1
       let items = []
       for (let item of manga.data) {
-        // console.log(`/${params.manga}/${item.vol_id}/${item.ch}/${item.p}`)
         items.push({path: `/${params.manga}/${item.vol_id}/${item.ch_id}/1`, name: `${item.vol} - ${item.ch}`})
       }
-      store.commit(SET_CHAP, ch)
+      if (ch > store.state.v.ch_i) {
+        store.commit(SET_CHAP, ch)
+      }
       store.commit(SET_PAGE, p)
-      return { data: params, ch_i: ch, p_i: p, path: path, chapters: items, title: `${path}` }
+      return { data: params, path: path, chapters: items, title: `${path}` }
     })
   },
   head () {
     return {
       title: this.title,
       meta: [
-        // { name: 'mr2', content: `${this.data.manga}` }
         { name: 'mr2', content: `${this.data.manga}` }
       ]
     }
@@ -98,26 +98,23 @@ export default {
   },
   beforeRouteUpdate (to, from, next) {
     console.log('beforeRouteUpdate _manga.vue')
-    console.log(from)
-    console.log(to)
     const ch = parseInt(to.params.ch) - 1
     const p = parseInt(to.params.p) - 1
     if (this.$store.state.manga_index) {
-      this.$store.commit(SET_CHAP, ch)
+      if (ch > this.$store.state.v.ch_i) {
+        this.$store.commit(SET_CHAP, ch)
+      }
       this.$store.commit(SET_PAGE, p)
     }
-    this.ch_i = ch
-    this.p_i = p
-    this.path = to.params.path
-    this.title = to.params.path
     next()
   },
   beforeRouteLeave (to, from, next) {
+    console.log('beforeRouteLeave')
     next()
   },
   methods: {
-    setChapter (index) {
-      this.$router.replace(this.chapters[index].path)
+    setChapter (i) {
+      this.$router.replace(this.chapters[i].path)
     },
     nextPage (next) {
       this.$router.replace(next.path)
