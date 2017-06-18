@@ -75,16 +75,17 @@ export default {
       for (let item of manga.data) {
         items.push({path: `/${params.manga}/${item.vol_id}/${item.ch_id}/1`, name: `${item.vol} - ${item.ch}`})
       }
-      if (ch > store.state.v.ch_i || ch < this.$store.state.v.ch_i) {
+      if (ch > store.state.v.ch_i || ch < store.state.v.ch_i) {
         store.commit(SET_CHAP, ch)
       }
       store.commit(SET_PAGE, p)
-      return { data: params, path: path, chapters: items, title: `${path}` }
+      // Update title.
+      document.title = path
+      return { data: params, chapters: items }
     })
   },
   head () {
     return {
-      title: this.title,
       meta: [
         { name: 'mr2', content: `${this.data.manga}` }
       ]
@@ -94,12 +95,16 @@ export default {
   data: () => {
   },
   beforeRouteEnter (to, from, next) { // Hooks
+    console.log('beforeRouteEnter')
     next()
   },
   beforeRouteUpdate (to, from, next) {
     console.log('beforeRouteUpdate _manga.vue')
+    document.title = `/${to.params.manga}/${to.params.vol}/${to.params.ch}/${to.params.p}`
     const ch = parseInt(to.params.ch) - 1
     const p = parseInt(to.params.p) - 1
+    console.log(ch)
+    console.log(this.$store.state.v.ch_i)
     if (this.$store.state.manga_index) {
       if (ch > this.$store.state.v.ch_i || ch < this.$store.state.v.ch_i) {
         this.$store.commit(SET_CHAP, ch)
@@ -114,6 +119,7 @@ export default {
   },
   methods: {
     setChapter (i) {
+      this.$store.commit(SET_CHAP, i)
       this.$router.replace(this.chapters[i].path)
     },
     nextPage (next) {
