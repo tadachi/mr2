@@ -12,5 +12,12 @@
     "vol_l": 60,
     "ch_l": 579,
     "index": "hsdk.json"
+  },
+  "akame_ga_kill": {
+    "name": "akame_ga_kill",
+    "title": "Akame ga Kill!",
+    "vol_l": 15,
+    "ch_l": 15,
+    "index": "akame_ga_kill.json"
   }
 }

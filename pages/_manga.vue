@@ -27,7 +27,12 @@
           <a class="button is-primary" v-on:click="prevPage($store.getters.getPrev)">Prev</a>
         </div>
         <div style="font-size: 13px" class="column is-8 has-text-centered">
-          <p>{{$store.state.v.p_i+1}} / {{$store.state.v.ch_len}}</p>
+          <p><select v-model="$store.state.v.p_i" v-on:change="setPage($store.state.v.p_i)">
+            <option v-for="n in $store.state.v.ch_len" :value="n-1">{{n}}</option>
+          </select>
+          / {{$store.state.v.ch_len}}</p>
+          <!--<p>{{$store.state.v.p_i+1}} / {{$store.state.v.ch_len}}</p>-->
+
           <p>{{$store.state.manga_index[$store.state.v.ch_i].ch}}</p>
         </div>
         <div class="column is-2 has-text-left">
@@ -79,13 +84,12 @@ export default {
         store.commit(SET_CHAP, ch)
       }
       store.commit(SET_PAGE, p)
-      // Update title.
-      document.title = path
       return { data: params, chapters: items }
     })
   },
   head () {
     return {
+      title: '',
       meta: [
         { name: 'mr2', content: `${this.data.manga}` }
       ]
@@ -100,11 +104,8 @@ export default {
   },
   beforeRouteUpdate (to, from, next) {
     console.log('beforeRouteUpdate _manga.vue')
-    document.title = `/${to.params.manga}/${to.params.vol}/${to.params.ch}/${to.params.p}`
     const ch = parseInt(to.params.ch) - 1
     const p = parseInt(to.params.p) - 1
-    console.log(ch)
-    console.log(this.$store.state.v.ch_i)
     if (this.$store.state.manga_index) {
       if (ch > this.$store.state.v.ch_i || ch < this.$store.state.v.ch_i) {
         this.$store.commit(SET_CHAP, ch)
@@ -121,6 +122,12 @@ export default {
     setChapter (i) {
       this.$store.commit(SET_CHAP, i)
       this.$router.replace(this.chapters[i].path)
+    },
+    setPage (i) {
+      const params = this.$route.params
+      const path = `/${params.manga}/${params.vol}/${params.ch}/${i + 1}`
+      this.$store.commit(SET_PAGE, i)
+      this.$router.replace(path)
     },
     nextPage (next) {
       this.$router.replace(next.path)
