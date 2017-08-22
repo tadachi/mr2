@@ -7,7 +7,7 @@
       <p><nuxt-link :to="'/'+manga.name+'/'+'01'+'/'+'001'+'/'+'1'">{{manga.title}}</nuxt-link></p>
     </div>
     <div>
-      <p><nuxt-link :to="'/'+'manga_scroll'">test</nuxt-link></p>
+      <!--<p><nuxt-link :to="'/'+'manga_scroll'">test</nuxt-link></p>-->
     </div>
   </div>
 </template>

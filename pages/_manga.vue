@@ -1,7 +1,6 @@
 <template>
   <div>
     <nuxt-link to='/'>Home</nuxt-link>
-    SCROLLING
     <div style="height: 9vh; margin-top: 10px;">
       <div style="height: 100%;" class="columns is-mobile is-gapless">
         <div class="column is-2 has-text-centered" >
@@ -81,6 +80,8 @@ export default {
       const p = parseInt(params.p) - 1
       let items = []
       for (let item of manga.data) {
+        // http://beastmachine:3000/akame_ga_kill/01/001/1
+        // beastmachine:3000/akame_ga_kill/        01           /001    /1
         items.push({path: `/${params.manga}/${item.vol_id}/${item.ch_id}/1`, name: `${item.vol} - ${item.ch}`})
       }
       if (ch > store.state.v.ch_i || ch < store.state.v.ch_i) {
