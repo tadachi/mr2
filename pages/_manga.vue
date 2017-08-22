@@ -1,6 +1,7 @@
 <template>
   <div>
     <nuxt-link to='/'>Home</nuxt-link>
+    SCROLLING
     <div style="height: 9vh; margin-top: 10px;">
       <div style="height: 100%;" class="columns is-mobile is-gapless">
         <div class="column is-2 has-text-centered" >
@@ -9,7 +10,7 @@
         <div class="column is-8 has-text-centered">
           <span class="select">
             <select v-model="$store.state.v.ch_i" v-on:change="setChapter($store.state.v.ch_i)">
-              <option v-for="(item, index, key) in chapters" :value="index">{{item.name}}</option>
+              <option v-for="(item, index, key) in chapters" :value="index" :key="key">{{item.name}}</option>
             </select>
           </span>
         </div>
@@ -27,12 +28,14 @@
           <a class="button is-primary" v-on:click="prevPage($store.getters.getPrev)">Prev</a>
         </div>
         <div style="font-size: 13px" class="column is-8 has-text-centered">
-          <p><select v-model="$store.state.v.p_i" v-on:change="setPage($store.state.v.p_i)">
-            <option v-for="n in $store.state.v.ch_len" :value="n-1">{{n}}</option>
-          </select>
-          / {{$store.state.v.ch_len}}</p>
-          <!--<p>{{$store.state.v.p_i+1}} / {{$store.state.v.ch_len}}</p>-->
-
+          <p>
+            <span class="scroll-style">
+              <select v-model="$store.state.v.p_i" v-on:change="setPage($store.state.v.p_i)">
+                <option v-for="(n,key) in $store.state.v.ch_len" :value="n-1" :key="key">{{n}}</option>
+              </select>
+            </span>
+            <span style="font-size: 16px;"> / {{$store.state.v.ch_len}}</span>
+          </p>
           <p>{{$store.state.manga_index[$store.state.v.ch_i].ch}}</p>
         </div>
         <div class="column is-2 has-text-left">
@@ -151,5 +154,10 @@ export default {
   center {
     display: block;
     margin: auto;
+  }
+
+  .scroll-style::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
   }
 </style>

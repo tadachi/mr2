@@ -1,10 +1,13 @@
 <template>
   <div>
-    <div v-for="(manga, index, key) in $store.state.index">
+    <div v-for="(manga, index, key) in $store.state.index" :key="key">
       <pre>
         {{manga.name}} volumes: {{manga.vol_l}} chapters: {{manga.ch_l}}
       </pre>
       <p><nuxt-link :to="'/'+manga.name+'/'+'01'+'/'+'001'+'/'+'1'">{{manga.title}}</nuxt-link></p>
+    </div>
+    <div>
+      <p><nuxt-link :to="'/'+'manga_scroll'">test</nuxt-link></p>
     </div>
   </div>
 </template>
